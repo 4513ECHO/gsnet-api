@@ -6,7 +6,12 @@ COPY ./requirements.lock /tmp/requirements.lock
 COPY ./app /opt/app/app
 
 RUN apt-get update -y
+RUN apt-get install wget -y
 RUN apt-get install chromium -y
+RUN wget http://launchpadlibrarian.net/554114601/chromium-browser_92.0.4515.159-0ubuntu0.18.04.1_arm64.deb
+RUN dpkg -i http://launchpadlibrarian.net/554114602/chromium-chromedriver_92.0.4515.159-0ubuntu0.18.04.1_arm64.deb
+RUN wget http://launchpadlibrarian.net/554114602/chromium-chromedriver_92.0.4515.159-0ubuntu0.18.04.1_arm64.deb
+RUN dpkg -i http://launchpadlibrarian.net/554114602/chromium-chromedriver_92.0.4515.159-0ubuntu0.18.04.1_arm64.deb
 RUN apt-get clean -y \
  && rm -rf /var/lib/apt/lists/*
 
