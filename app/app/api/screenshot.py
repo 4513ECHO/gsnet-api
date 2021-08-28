@@ -4,7 +4,6 @@ from fastapi import APIRouter
 from fastapi.responses import FileResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import chromedriver_binary
 
 IMAGE_PATH = os.path.join(os.path.dirname(__file__), "image/screenshot.png")
 
@@ -15,6 +14,7 @@ def create_driver(url, image_path):
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(
+        "/usr/bin/chromium",
         options=options
     )
     driver.get(url)
