@@ -14,14 +14,13 @@ def create_driver(url, image_path):
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(
-        "/usr/bin/chromium",
+        "/usr/lib/chromium-browser/chromedriver",
         options=options
     )
     driver.get(url)
     screenshot = driver.save_screenshot(image_path)
-    return screenshot
 
 @router.get("/screenshot/{address}", response_class=FileResponse)
 def screenshot(address: str):
-    screenshot = create_driver(f"http://{address}/", IMAGE_PATH)
-    return FileResponse(screenshot)
+    create_driver(f"http://{address}/", IMAGE_PATH)
+    return FileResponse(IMAGE_PATH)
