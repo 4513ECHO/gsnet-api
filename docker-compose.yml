@@ -23,7 +23,6 @@ services:
     networks:
       - nginx_network
     volumes:
-      - ./app:/opt/app
       - /etc/tinc:/etc/tinc
 
 networks:
