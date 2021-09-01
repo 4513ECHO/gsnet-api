@@ -2,7 +2,7 @@ import os
 
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, FileResponse
 
 from .routers import mainpage
 from .api import screenshot
@@ -27,16 +27,14 @@ def create_app():
         responses={404: {"description": "not found"}},
     )
 
-    _app.mount(
-        "/static",
-        StaticFiles(directory=STATIC_PATH, html=True),
-        name="static"
-    )
+    _app.mount("/static", StaticFiles(directory=STATIC_PATH, html=True), name="static")
 
     return _app
 
+
 app = create_app()
 
+
 @app.get("/")
-async def redirect_mainpage():
+def redirect_mainpage():
     return RedirectResponse("/mainpage")
