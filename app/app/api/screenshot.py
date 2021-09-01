@@ -1,5 +1,8 @@
-import os
+from __future__ import annotations
+
 import datetime
+import os
+from typing import Literal
 
 from fastapi import APIRouter
 from fastapi.responses import FileResponse, HTMLResponse, Response
@@ -7,7 +10,15 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 router = APIRouter()
-html = "<html><head><meta property='og:image' content='http://10.5.1.2:8000/api/screenshot?site={0}'></head></html>"
+html = """
+<!DOCTYPE html>
+<html>
+<head>
+  <meta property='og:image' content='http://10.5.1.2:8000/api/screenshot.png?site={0}'>
+</head>
+</html>
+"""
+filetype = Literal["", ".png", ".html"]
 
 
 def create_image(url: str) -> str:
@@ -28,12 +39,14 @@ def is_ipaddress(site: str) -> bool:
     return False
 
 
-@router.get("/screenshot")
-def screenshot(site: str, ogp: bool = False):
+@router.get("/screenshot{filetype}")
+def screenshot(filetype: filetype, site: str):
     if not is_ipaddress(site):
         return Response(status_code=400)
-    if ogp:
-        return HTMLResponse(html.format(site))
-    else:
+    if filetype == "" or filetype == ".png":
         image = create_image(f"http://{site}")
         return FileResponse(image)
+    elif filetype == ".html":
+        return HTMLResponse(html.format(site))
+    else:
+        return Response(status_code=400)
