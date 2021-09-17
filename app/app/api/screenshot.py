@@ -14,7 +14,7 @@ html = """
 <!DOCTYPE html>
 <html>
 <head>
-  <meta property='og:title' content='Rusult'>
+  <meta property='og:title' content='Result'>
   <meta property='og:image' content='http://10.5.1.2/api/screenshot.png?site={0}'>
 </head>
 </html>
